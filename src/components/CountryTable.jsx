@@ -4,13 +4,24 @@ class CountryTable extends Component {
   render() {
     const { countries } = this.props;
     return (
-      <table class="table table-dark table-striped">
+      <table className="table table-dark table-striped">
         <thead>
           <tr>
-            <th>C</th>
-            <th>T</th>
+            <th>Country name</th>
+            <th>Last update</th>
+            <th>Total cases</th>
           </tr>
         </thead>
+
+        <tbody>
+          {countries.map((country) => (
+            <tr>
+              <td>{country.name}</td>
+              <td>{country.lastUpdate}</td>
+              <td>{country.total}</td>
+            </tr>
+          ))}
+        </tbody>
       </table>
     );
   }
