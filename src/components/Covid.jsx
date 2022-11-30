@@ -52,17 +52,11 @@ class Covid extends Component {
   };
 
   handleSortByTotalAsc = (event) => {
-    event.preventDefault(); //stop the page from being refreshed
-    const countries = [...this.state.countries]; //making a copy
-    countries.sort(this.sortByTotalAsc);
-    this.setState({ countries });
+    this.handleSortBy(event, this.sortByTotalAsc, true);
   };
 
   handleSortByTotalDes = (event) => {
-    event.preventDefault(); //stop the page from being refreshed
-    const countries = [...this.state.countries]; //making a copy
-    countries.sort(this.sortByTotalAsc).reverse();
-    this.setState({ countries });
+    this.handleSortBy(event, this.sortByTotalAsc, false);
   };
 
   sortByNameAsc = (countryA, countryB) => {
@@ -72,16 +66,18 @@ class Covid extends Component {
   };
 
   handleSortByNameAsc = (event) => {
-    event.preventDefault(); //stop the page from being refreshed
-    const countries = [...this.state.countries]; //making a copy
-    countries.sort(this.sortByNameAsc);
-    this.setState({ countries });
+    this.handleSortBy(event, this.sortByNameAsc, true);
   };
 
   handleSortByNameDes = (event) => {
+    this.handleSortBy(event, this.sortByNameAsc, false);
+  };
+
+  handleSortBy = (event, sortOperation, isAsc) => {
     event.preventDefault(); //stop the page from being refreshed
     const countries = [...this.state.countries]; //making a copy
-    countries.sort(this.sortByNameAsc).reverse();
+    countries.sort(sortOperation);
+    if (!isAsc) countries.reverse();
     this.setState({ countries });
   };
 
