@@ -30,6 +30,7 @@ class Covid extends Component {
           name: countryName,
           lastUpdate: lastUpdate,
           total: total,
+          selected: false,
         });
         allTotal += total;
       }
@@ -81,6 +82,23 @@ class Covid extends Component {
     this.setState({ countries });
   };
 
+  handleRowSelected = (countryToUpdate) => {
+    const countries = [...this.state.countries];
+    const countryIndex = countries.findIndex(
+      (c) => c.name === countryToUpdate.name
+    );
+
+    const newCountry = {
+      name: countryToUpdate.name,
+      lastUpdate: countryToUpdate.lastUpdate,
+      total: countryToUpdate.total,
+      selected: !countryToUpdate.selected,
+    };
+
+    countries[countryIndex] = newCountry;
+    this.setState({ countries });
+  };
+
   //make the big number looks good
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -105,6 +123,7 @@ class Covid extends Component {
             onSortByTotalDes={this.handleSortByTotalDes}
             onSortByNameAsc={this.handleSortByNameAsc}
             onSortByNameDes={this.handleSortByNameDes}
+            onRowSelected={this.handleRowSelected}
           />
         )}
       </div>
