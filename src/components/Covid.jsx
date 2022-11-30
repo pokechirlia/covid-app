@@ -22,7 +22,7 @@ class Covid extends Component {
     for (let i = 1; i < rows.length; i++) {
       //for commas that are outside the quotes ("Korea, South" does not count)
       const row = rows[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-      const countryName = row[0];
+      const countryName = row[0].replace(/"/g, "");
       const lastUpdate = row[1];
       const total = Number(row[4]);
       if (countryName !== "") {
@@ -45,6 +45,46 @@ class Covid extends Component {
     // console.log(allTotal);
   }
 
+  sortByTotalAsc = (countryA, countryB) => {
+    if (countryA.total < countryB.total) return -1;
+    else if (countryA.total == countryB.total) return 0;
+    else return 1;
+  };
+
+  handleSortByTotalAsc = (event) => {
+    event.preventDefault(); //stop the page from being refreshed
+    const countries = [...this.state.countries]; //making a copy
+    countries.sort(this.sortByTotalAsc);
+    this.setState({ countries });
+  };
+
+  handleSortByTotalDes = (event) => {
+    event.preventDefault(); //stop the page from being refreshed
+    const countries = [...this.state.countries]; //making a copy
+    countries.sort(this.sortByTotalAsc).reverse();
+    this.setState({ countries });
+  };
+
+  sortByNameAsc = (countryA, countryB) => {
+    if (countryA.name < countryB.name) return -1;
+    else if (countryA.name == countryB.name) return 0;
+    else return 1;
+  };
+
+  handleSortByNameAsc = (event) => {
+    event.preventDefault(); //stop the page from being refreshed
+    const countries = [...this.state.countries]; //making a copy
+    countries.sort(this.sortByNameAsc);
+    this.setState({ countries });
+  };
+
+  handleSortByNameDes = (event) => {
+    event.preventDefault(); //stop the page from being refreshed
+    const countries = [...this.state.countries]; //making a copy
+    countries.sort(this.sortByNameAsc).reverse();
+    this.setState({ countries });
+  };
+
   //make the big number looks good
   numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -57,7 +97,20 @@ class Covid extends Component {
         <h1 style={{ textAlign: "center" }}>
           All country total: {this.numberWithCommas(allTotal)}
         </h1>
-        {allTotal === 0 ? <Loading /> : <CountryTable countries={countries} />}
+        <h4 style={{ textAlign: "center" }}>
+          According to Johns Hopkins data source
+        </h4>
+        {allTotal === 0 ? (
+          <Loading />
+        ) : (
+          <CountryTable
+            countries={countries}
+            onSortByTotalAsc={this.handleSortByTotalAsc}
+            onSortByTotalDes={this.handleSortByTotalDes}
+            onSortByNameAsc={this.handleSortByNameAsc}
+            onSortByNameDes={this.handleSortByNameDes}
+          />
+        )}
       </div>
     );
   }
