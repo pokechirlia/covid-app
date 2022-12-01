@@ -2,11 +2,14 @@ import React, { Component } from "react";
 import Loading from "./Loading";
 import axios from "axios"; // used to make http request
 import CountryTable from "./CountryTable";
+import { ChatRight } from "react-bootstrap-icons";
+import Chart from "./Chart";
 
 class Covid extends Component {
   state = {
     countries: [],
     allTotal: 0,
+    selectedCountries: [],
   };
   url =
     "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/web-data/data/cases_country.csv";
@@ -40,7 +43,11 @@ class Covid extends Component {
 
     // this.setState({ countries: countries, allTotal: allTotal });
     //if state attributes and variables have the same name, can use this
-    this.setState({ countries, allTotal });
+    this.setState({
+      countries,
+      allTotal,
+      // selectedCountries: countries.filter((c) => c.selected),
+    });
 
     // console.table(countries);
     // console.log(allTotal);
@@ -96,7 +103,10 @@ class Covid extends Component {
     };
 
     countries[countryIndex] = newCountry;
-    this.setState({ countries });
+    this.setState({
+      countries,
+      selectedCountries: countries.filter((c) => c.selected),
+    });
   };
 
   //make the big number looks good
@@ -105,7 +115,7 @@ class Covid extends Component {
   }
 
   render() {
-    const { countries, allTotal } = this.state;
+    const { countries, allTotal, selectedCountries } = this.state;
     return (
       <div>
         <h1 style={{ textAlign: "center" }}>
@@ -117,14 +127,17 @@ class Covid extends Component {
         {allTotal === 0 ? (
           <Loading />
         ) : (
-          <CountryTable
-            countries={countries}
-            onSortByTotalAsc={this.handleSortByTotalAsc}
-            onSortByTotalDes={this.handleSortByTotalDes}
-            onSortByNameAsc={this.handleSortByNameAsc}
-            onSortByNameDes={this.handleSortByNameDes}
-            onRowSelected={this.handleRowSelected}
-          />
+          <div>
+            <Chart countries={selectedCountries} />
+            <CountryTable
+              countries={countries}
+              onSortByTotalAsc={this.handleSortByTotalAsc}
+              onSortByTotalDes={this.handleSortByTotalDes}
+              onSortByNameAsc={this.handleSortByNameAsc}
+              onSortByNameDes={this.handleSortByNameDes}
+              onRowSelected={this.handleRowSelected}
+            />
+          </div>
         )}
       </div>
     );

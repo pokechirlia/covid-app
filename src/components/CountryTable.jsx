@@ -41,14 +41,18 @@ class CountryTable extends Component {
 
         <tbody>
           {countries.map((country) => {
-            const style = {
+            const selectedStyle = {
               backgroundColor: "lightblue",
+            };
+
+            const style = {
+              cursor: "pointer",
             };
 
             return (
               //react prefer having a key for a list
               <tr
-                style={country.selected ? style : null}
+                style={country.selected ? selectedStyle : style}
                 key={country.name}
                 onClick={() => onRowSelected(country)}
               >
