@@ -1,4 +1,14 @@
-# Getting Started with Create React App
+This project can be run on this link: https://pokechirlia.github.io/covid-app/
+And the page should display a pie chart as you click any country: 
+
+![image](https://user-images.githubusercontent.com/68430342/205224155-e27b827b-f72d-4e45-89ab-6e0e3d41c50a.png)
+
+
+
+
+
+
+# Intruction for running react app on your computer
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
